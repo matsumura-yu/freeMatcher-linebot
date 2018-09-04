@@ -26,11 +26,27 @@ function handleEvent(event) {
   }
 
   const reqMessage = event.message.text
-  if(reqMessage == 'stand'){
-    return client.replyMessage(event.replyToken,{
-        type: 'text',
-        text: 'あなたは待機状態になりました'
-    })
+  switch(reqMessage){
+    case "スタンド":
+        return client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: 'あなたは待機状態になりました'
+        })
+    case "キャッチ":
+        return client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: '待機状態の人をお知らせします'
+        })
+    case "ヘルプ":
+        return client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: 'このBotが出来ることを教えます'
+        })
+    case "意見":
+        return client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: '何か開発者に意見をお願いします'
+        })
   }
   
   return client.replyMessage(event.replyToken, {
