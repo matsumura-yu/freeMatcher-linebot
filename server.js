@@ -25,6 +25,14 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
+  const reqMessage = event.message.text
+  if(reqMessage == 'stand'){
+    return client.replyMessage(event.replyToken,{
+        type: 'text',
+        text: 'あなたは待機状態になりました'
+    })
+  }
+  
   return client.replyMessage(event.replyToken, {
     type: 'text',
     text: event.message.text //実際に返信の言葉を入れる箇所
