@@ -68,7 +68,7 @@ async function handleEvent(event) {
             const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
             replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
         }else{
-            console.log("エラー" , err)
+            console.log("エラー")
             replayMessage = "予期せぬエラーが発生しました。"
         }
         client.replyMessage(event.replyToken,{
