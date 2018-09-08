@@ -3,6 +3,7 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
 const PORT = process.env.PORT || 3000;
+const Redis = require('redis').createClient(process.env.REDIS_URL);
 
 const config = {
     channelSecret: process.env.CHANNEL_SECRET,
