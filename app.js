@@ -71,7 +71,7 @@ async function handleEvent(event) {
             if(!err){
                 console.log(userIds);
                 
-                const displayNames = asyncMap(userIds, async userId => {
+                const displayNames = await asyncMap(userIds, async userId => {
                     const response = await getDisplayName(client, userId);
                     return response
                 })
