@@ -59,8 +59,9 @@ async function handleEvent(event) {
     
     case "キャッチ":
         const standUserIds = await redisClient.smembers("userIds")
-        const groupUserIds = await client.getGroupMemberIds(groupId)
-        const groupUserIdTest = groupUserIds.join('\n')
+        //認証済みLINE@でないと使えない機能
+        //const groupUserIds = await client.getGroupMemberIds(groupId)
+        //const groupUserIdTest = groupUserIds.join('\n')
         let replayMessage = ""
         if(!err){
             console.log(userIds);
@@ -72,7 +73,7 @@ async function handleEvent(event) {
         }
         client.replyMessage(event.replyToken,{
             type: 'text',
-            text: replayMessage + groupUserIdTest
+            text: replayMessage //+ groupUserIdTest
         })
         redisClient.quit()
         return true
