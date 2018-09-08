@@ -1,6 +1,6 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
-
+process.on('unhandledRejection', console.dir);
 require('dotenv').config();
 
 const config = {
@@ -34,10 +34,10 @@ async function handleEvent(event) {
     const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
   // userId取得
-  const userId = event.source.userId;
-  const reqMessage = event.message.text
-  const groupId = event.source.groupId;
-  switch(reqMessage){
+    const userId = event.source.userId;
+    const reqMessage = event.message.text
+    const groupId = event.source.groupId;
+    switch(reqMessage){
     case "スタンド":
         redisClient.sadd("userIds",userId)
         redisClient.quit();
