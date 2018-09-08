@@ -63,7 +63,7 @@ async function handleEvent(event) {
         //const groupUserIds = await client.getGroupMemberIds(groupId)
         //const groupUserIdTest = groupUserIds.join('\n')
         let replayMessage = ""
-        if(!err){
+        if(standUserIds != false){
             console.log(userIds);
             const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
             replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
