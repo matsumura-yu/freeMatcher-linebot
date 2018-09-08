@@ -3,7 +3,7 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
 const PORT = process.env.PORT || 3000;
-const Redis = require('redis').createClient(process.env.REDIS_URL);
+const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
 const config = {
     channelSecret: process.env.CHANNEL_SECRET,
@@ -29,6 +29,13 @@ function handleEvent(event) {
   const reqMessage = event.message.text
   switch(reqMessage){
     case "スタンド":
+        // userId取得
+        const userId = event.message.source.userId;
+
+        redisClient.sadd("userList", userId);
+        const userList = redisClient.get("userList", redis.print);
+
+        client.quit();
         return client.replyMessage(event.replyToken,{
             type: 'text',
             text: 'あなたは待機状態になりました'
