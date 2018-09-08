@@ -31,11 +31,15 @@ async function handleEvent(event) {
   switch(reqMessage){
     case "スタンド":
         redisClient.sadd("userIds",userId)
-        
         redisClient.quit();
+
+        const profile = await client.getProfile(userId);
+        const displayName = profile.displayName;
+        console.log(displayName);
+
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: '待機'
+            text: displayName
         })
     
     case "アンスタンド":
