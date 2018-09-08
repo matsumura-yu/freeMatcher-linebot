@@ -61,7 +61,8 @@ async function handleEvent(event) {
             let replayMessage = ""
             if(!err){
                 console.log(userIds);
-                const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
+                const pDisplayNames = userIds.map(async userId => await getDisplayName(client, userId));
+                const displayNames = await Promise.all(pDisplayNames);
                 replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
             }else{
                 console.log("エラー" , err)
