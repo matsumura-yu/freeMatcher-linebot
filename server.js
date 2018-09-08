@@ -35,7 +35,7 @@ function handleEvent(event) {
         redisClient.sadd("userList", userId);
         const userList = redisClient.get("userList", redisClient.print);
 
-        client.quit();
+        redisClient.quit();
         return client.replyMessage(event.replyToken,{
             type: 'text',
             text: 'あなたは待機状態になりました'
