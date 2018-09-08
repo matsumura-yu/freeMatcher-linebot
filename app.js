@@ -53,7 +53,7 @@ async function handleEvent(event) {
                     text: '待機状態の人をお知らせします\n' + userIds.join("\n")
                 })
             }else{
-                console.log("エラー")
+                console.log("エラー" , err)
             }
         })
         return true
