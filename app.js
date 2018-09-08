@@ -58,24 +58,28 @@ async function handleEvent(event) {
         })
     
     case "キャッチ":
-        const standUserIds = await redisClient.smembers("userIds")
+        // const standUserIds = await redisClient.smembers("userIds")
+        // async awaitでの書き換え失敗
+
+        await redisClient.smembers("userIds", function (err, userIds) {
+            let replayMessage = ""
+            if(!err){
+                console.log(userIds);
+                const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
+                replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
+            }else{
+                console.log("エラー" , err)
+                replayMessage = "予期せぬエラーが発生しました。"
+            }
+            client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: replayMessage
+            })
+
+        })
         //認証済みLINE@でないと使えない機能
         //const groupUserIds = await client.getGroupMemberIds(groupId)
         //const groupUserIdTest = groupUserIds.join('\n')
-        console.log(standUserIds)
-        let replayMessage = ""
-        if(standUserIds != false){
-            console.log(userIds);
-            const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
-            replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
-        }else{
-            console.log("エラー")
-            replayMessage = "予期せぬエラーが発生しました。"
-        }
-        client.replyMessage(event.replyToken,{
-            type: 'text',
-            text: replayMessage //+ groupUserIdTest
-        })
         redisClient.quit()
         return true
     case "ヘルプ":
