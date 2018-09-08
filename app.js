@@ -71,13 +71,14 @@ async function handleEvent(event) {
             if(!err){
                 console.log(userIds);
                 
-                const displayNames = await asyncMap(userIds, async userId => {
+                const displayNames = asyncMap(userIds, async userId => {
                     const response = await getDisplayName(client, userId);
+                    console.log("resoponse", response)
                     return response
                 })
 
                 console.log(displayNames)
-                replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
+                replayMessage = '待機状態の人をお知らせします。\n' // + displayNames.join("\n")
             }else{
                 console.log("エラー" , err)
                 replayMessage = "予期せぬエラーが発生しました。"
