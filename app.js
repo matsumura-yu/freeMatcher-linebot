@@ -53,32 +53,36 @@ async function handleEvent(event) {
         redisClient.srem("userIds",userId)
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: '待機状態の人をやめます'
+            text: '待機状態の人をやめます。'
         })
     
     case "キャッチ":
         await redisClient.smembers("userIds", function (err, userIds) {
+            let replayMessage = ""
             if(!err){
                 console.log(userIds);
-                client.replyMessage(event.replyToken,{
-                    type: 'text',
-                    text: '待機状態の人をお知らせします\n' + userIds.join("\n")
-                })
+                const displayNames = userIds.map(userId => getDisplayName(client, userId));
+                replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
             }else{
                 console.log("エラー" , err)
+                replayMessage = "予期せぬエラーが発生しました。"
             }
+            client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: replayMessage
+            })
         })
         redisClient.quit()
         return true
     case "ヘルプ":
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: 'このBotが出来ることを教えます'
+            text: 'このBotが出来ることを教えます。'
         })
     case "意見":
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: '何か開発者に意見をお願いします'
+            text: '何か開発者に意見をお願いします。'
         })
   }
   
