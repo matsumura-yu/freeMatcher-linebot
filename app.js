@@ -1,6 +1,6 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
-const redisClient = require('redis').createClient(process.env.REDIS_URL);
+
 require('dotenv').config();
 
 const config = {
@@ -19,9 +19,11 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 const client = new line.Client(config);
 
 async function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
-    return Promise.resolve(null);
-  }
+    if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
+        return Promise.resolve(null);
+    }
+    // コネクションをはる
+    const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
   // userId取得
   const userId = event.source.userId;
@@ -56,6 +58,7 @@ async function handleEvent(event) {
                 console.log("エラー" , err)
             }
         })
+        redisClient.quit()
         return true
     case "ヘルプ":
         return client.replyMessage(event.replyToken,{
