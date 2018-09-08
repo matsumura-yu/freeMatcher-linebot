@@ -18,6 +18,14 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 const client = new line.Client(config);
 
+async function getDisplayName(client, userId) {
+  const profile = await client.getProfile(userId);
+  const displayName = profile.displayName;
+  console.log(displayName); // TODO: 確認次第消す
+
+  return displayName;
+}
+
 async function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
         return Promise.resolve(null);
@@ -33,9 +41,7 @@ async function handleEvent(event) {
         redisClient.sadd("userIds",userId)
         redisClient.quit();
 
-        const profile = await client.getProfile(userId);
-        const displayName = profile.displayName;
-        console.log(displayName);
+        const displayName = await getDisplayName(client, userId);
 
         return client.replyMessage(event.replyToken,{
             type: 'text',
