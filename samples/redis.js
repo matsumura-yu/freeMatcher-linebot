@@ -8,8 +8,28 @@
 const redis = require('redis');
 const client = redis.createClient(process.env.REDIS_URL);
 
+
+
+const redis = require('redis');
+const client = redis.createClient(process.env.REDIS_URL);
+
 const userId  = "jfaioejifjaoifajsn"
-const groupId = "faijdjfoisajisjfiajo"
+const userId2  = "jlsiiosijiojfioaj"
+
+client.sadd("userIds",userId)
+client.sadd("userIds",userId2)
+
+client.srem("userIds",userId)
+
+client.smembers("userIds", function (err, replies) {
+    if(!err){
+        console.log(replies);
+    }
+})
+
+client.quit()
+
+
 
 client.hmset("hosts", "userId", userId,'EX', 1);
 client.hgetall("hosts", function (err, obj) {
