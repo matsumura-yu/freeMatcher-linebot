@@ -20,7 +20,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 const client = new line.Client(config);
 
-function handleEvent(event) {
+async function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
     return Promise.resolve(null);
   }
@@ -31,18 +31,35 @@ function handleEvent(event) {
         // userId取得
         const userId = event.source.userId;
 
-        redisClient.sadd("userList", userId);
-        //const userList = redisClient.get("userList", redisClient.print);
-
+        redisClient.sadd("userIds",userId)
+        
         redisClient.quit();
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: 'あなたは待機状態になりました'
+            text: userId
         })
-    case "キャッチ":
+    
+    case "アンスタンド":
+        // userId取得
+        const userId = event.source.userId;
+        redisClient.srem("userIds",userId)
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: '待機状態の人をお知らせします'
+            text: '待機状態の人をやめます'
+        })
+    
+    case "キャッチ":
+        const standUsers = await redisClient.smembers("userIds", function (err, replies) {
+            if(!err){
+                console.log(replies);
+                return replies;
+            }
+            return ["standUsersの取得に失敗しました"]
+            
+        })
+        return client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: '待機状態の人をお知らせします\n' + standUsers.join("\n")
         })
     case "ヘルプ":
         return client.replyMessage(event.replyToken,{
