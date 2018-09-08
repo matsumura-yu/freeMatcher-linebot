@@ -36,7 +36,7 @@ async function handleEvent(event) {
         redisClient.quit();
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: userId
+            text: '待機'
         })
     
     case "アンスタンド":
