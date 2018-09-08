@@ -36,6 +36,7 @@ async function handleEvent(event) {
   // userId取得
   const userId = event.source.userId;
   const reqMessage = event.message.text
+  const groupId = event.source.groupId;
   switch(reqMessage){
     case "スタンド":
         redisClient.sadd("userIds",userId)
@@ -57,20 +58,21 @@ async function handleEvent(event) {
         })
     
     case "キャッチ":
-        await redisClient.smembers("userIds", function (err, userIds) {
-            let replayMessage = ""
-            if(!err){
-                console.log(userIds);
-                const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
-                replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
-            }else{
-                console.log("エラー" , err)
-                replayMessage = "予期せぬエラーが発生しました。"
-            }
-            client.replyMessage(event.replyToken,{
-                type: 'text',
-                text: replayMessage
-            })
+        const standUserIds = await redisClient.smembers("userIds")
+        const groupUserIds = await client.getGroupMemberIds(groupId)
+        const groupUserIdTest = groupUserIds.join('\n')
+        let replayMessage = ""
+        if(!err){
+            console.log(userIds);
+            const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
+            replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
+        }else{
+            console.log("エラー" , err)
+            replayMessage = "予期せぬエラーが発生しました。"
+        }
+        client.replyMessage(event.replyToken,{
+            type: 'text',
+            text: replayMessage + groupUserIdTest
         })
         redisClient.quit()
         return true
