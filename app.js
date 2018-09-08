@@ -77,7 +77,7 @@ async function handleEvent(event) {
                     return response
                 }).then(result => {
                     console.log(result);
-                    replayMessage = '待機状態の人をお知らせします。\n' // + result.join("\n")
+                    replayMessage = '待機状態の人をお知らせします。\n' + result.join("\n")
                     client.replyMessage(event.replyToken,{
                         type: 'text',
                         text: replayMessage
