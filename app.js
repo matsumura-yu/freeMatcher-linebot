@@ -18,6 +18,11 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 const client = new line.Client(config);
 
+// listを操作するためのasync
+async function asyncMap(array, operation) {
+    return Promise.all(array.map(async item => await operation(item)))
+}
+
 async function getDisplayName(client, userId) {
   const profile = await client.getProfile(userId);
   const displayName = profile.displayName;
@@ -65,7 +70,13 @@ async function handleEvent(event) {
             let replayMessage = ""
             if(!err){
                 console.log(userIds);
-                const displayNames = userIds.map(async userId => await getDisplayName(client, userId));
+                
+                const displayNames = asyncMap(userIds, async userId => {
+                    const response = await getDisplayName(client, userId);
+                    return response
+                })
+
+                console.log(displayNames)
                 replayMessage = '待機状態の人をお知らせします。\n' + displayNames.join("\n")
             }else{
                 console.log("エラー" , err)
