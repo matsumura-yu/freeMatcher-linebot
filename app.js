@@ -24,13 +24,13 @@ async function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
     return Promise.resolve(null);
   }
-
+  
+  // userId取得
+  const userId = event.source.userId;
   const reqMessage = event.message.text
   switch(reqMessage){
     case "スタンド":
-        // userId取得
-        const userId = event.source.userId;
-
+        
         redisClient.sadd("userIds",userId)
         
         redisClient.quit();
@@ -41,7 +41,6 @@ async function handleEvent(event) {
     
     case "アンスタンド":
         // userId取得
-        const userId = event.source.userId;
         redisClient.srem("userIds",userId)
         return client.replyMessage(event.replyToken,{
             type: 'text',
