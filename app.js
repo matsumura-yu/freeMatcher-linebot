@@ -45,18 +45,18 @@ async function handleEvent(event) {
         })
     
     case "キャッチ":
-        const standUsers = await redisClient.smembers("userIds", function (err, replies) {
-            return ["standUsersの取得に失敗しました"]
+        await redisClient.smembers("userIds", function (err, userIds) {
             if(!err){
-                console.log(replies);
-                return replies;
+                console.log(userIds);
+                client.replyMessage(event.replyToken,{
+                    type: 'text',
+                    text: '待機状態の人をお知らせします\n' + userIds.join("\n")
+                })
+            }else{
+                console.log("エラー")
             }
         })
-        console.log(standUsers)
-        return client.replyMessage(event.replyToken,{
-            type: 'text',
-            text: '待機状態の人をお知らせします\n' + standUsers.join("\n")
-        })
+        return true
     case "ヘルプ":
         return client.replyMessage(event.replyToken,{
             type: 'text',
