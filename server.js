@@ -30,7 +30,7 @@ function handleEvent(event) {
   switch(reqMessage){
     case "スタンド":
         // userId取得
-        const userId = event.message.source.userId;
+        const userId = event.source.userId;
 
         redisClient.sadd("userList", userId);
         const userList = redisClient.get("userList", redis.print);
