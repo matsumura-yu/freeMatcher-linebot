@@ -62,6 +62,7 @@ async function handleEvent(event) {
         //認証済みLINE@でないと使えない機能
         //const groupUserIds = await client.getGroupMemberIds(groupId)
         //const groupUserIdTest = groupUserIds.join('\n')
+        console.log(standUserIds)
         let replayMessage = ""
         if(standUserIds != false){
             console.log(userIds);
