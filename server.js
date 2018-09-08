@@ -33,7 +33,7 @@ function handleEvent(event) {
         const userId = event.source.userId;
 
         redisClient.sadd("userList", userId);
-        const userList = redisClient.get("userList", redis.print);
+        const userList = redisClient.get("userList", redisClient.print);
 
         client.quit();
         return client.replyMessage(event.replyToken,{
