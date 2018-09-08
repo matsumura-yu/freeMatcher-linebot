@@ -75,18 +75,31 @@ async function handleEvent(event) {
                     const response = await getDisplayName(client, userId);
                     console.log("resoponse", response)
                     return response
+                }).then(result => {
+                    console.log(result);
+                    replayMessage = '待機状態の人をお知らせします。\n' // + result.join("\n")
+                    client.replyMessage(event.replyToken,{
+                        type: 'text',
+                        text: replayMessage
+                    })
                 })
-
-                console.log(displayNames)
-                replayMessage = '待機状態の人をお知らせします。\n' // + displayNames.join("\n")
+                
+                // こいつが上より早く処理されてしまう
+                // promise<pending>
+                //console.log(displayNames)
+                // replayMessage = '待機状態の人をお知らせします。\n' // + displayNames.join("\n")
+                // client.replyMessage(event.replyToken,{
+                //     type: 'text',
+                //     text: replayMessage
+                // })
             }else{
                 console.log("エラー" , err)
                 replayMessage = "予期せぬエラーが発生しました。"
+                client.replyMessage(event.replyToken,{
+                    type: 'text',
+                    text: replayMessage
+                })
             }
-            client.replyMessage(event.replyToken,{
-                type: 'text',
-                text: replayMessage
-            })
 
         })
         //認証済みLINE@でないと使えない機能
