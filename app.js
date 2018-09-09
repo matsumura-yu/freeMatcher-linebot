@@ -32,9 +32,10 @@ async function getDisplayName(client, userId) {
 }
 
 async function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
-        return Promise.resolve(null);
-    }
+    // グループチャットを切る
+    // if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
+    //     return Promise.resolve(null);
+    // }
     // コネクションをはる
     const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
@@ -42,27 +43,30 @@ async function handleEvent(event) {
     const userId = event.source.userId;
     const reqMessage = event.message.text
     const groupId = event.source.groupId;
+
+    const displayName = await getDisplayName(client, userId);
+
     switch(reqMessage){
-    case "スタンド":
+    case "行ける":
         redisClient.sadd("userIds",userId)
         redisClient.quit();
 
-        const displayName = await getDisplayName(client, userId);
-
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: displayName
+            text: displayName + "さんは戦いたがっています。"
         })
     
-    case "アンスタンド":
+    case "寝る":
         // userId取得
         redisClient.srem("userIds",userId)
+        redisClient.quit();
+        
         return client.replyMessage(event.replyToken,{
             type: 'text',
-            text: '待機状態の人をやめます。'
+            text: displayName + 'さんは待機を辞めます。'
         })
     
-    case "キャッチ":
+    case "誰か":
         // const standUserIds = await redisClient.smembers("userIds")
         // async awaitでの書き換え失敗
 
@@ -117,6 +121,9 @@ async function handleEvent(event) {
             type: 'text',
             text: '何か開発者に意見をお願いします。'
         })
+    default:
+        return Promise.resolve(null);
+        
   }
   
   return client.replyMessage(event.replyToken, {
