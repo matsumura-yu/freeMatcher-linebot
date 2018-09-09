@@ -56,7 +56,7 @@ async function handleEvent(event) {
             text: displayName + "さんは戦いたがっています。"
         })
     
-    case "寝る":
+    case "落ちる":
         // userId取得
         redisClient.srem("userIds",userId)
         redisClient.quit();
