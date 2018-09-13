@@ -122,7 +122,30 @@ async function handleEvent(event) {
             text: '何か開発者に意見をお願いします。'
         })
     default:
-        return Promise.resolve(null);
+        // TODO:式実行して変数に代入しながらif文かけたい
+        if(reqMessage.match(/(\d+)月(\d+)日/) == null){
+            //result = s.match( /\D+(\d+)年(\d+)月(\d+)日/ )
+            console.log('現在ここ')
+            return Promise.resolve(null);
+        }else{
+            let result = reqMessage.match(/(\d+)月(\d+)日/)
+            let month = result[1]
+            let day = result[2]
+            // 次の日
+            let nextDay = String(Number(day) + 1)
+            let startDate = '2018' + month + day
+            let endDate = '2018' + month + nextDay
+            var createEvent = require('./createEvent')
+            let url = createEvent(startDate, endDate)
+            console.log(url)
+
+            return client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: url
+            })
+
+        }
+        
         
   }
   
