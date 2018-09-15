@@ -293,6 +293,7 @@ async function handleEvent(event) {
                 console.log(err)
             }
             if(reply == 0){
+                console.log("userID：groupIDとして登録します")
                 redisClient.sadd(userId, groupId)
             }
         })
