@@ -203,6 +203,41 @@ var flexMessage =
   }
 
 
+var quickMessage = 
+{
+    "type": "text",
+    "text": "Select your favorite food category or send me your location!",
+    "quickReply": {
+      "items": [
+        {
+          "type": "action",
+          "imageUrl": "https://example.com/sushi.png",
+          "action": {
+            "type": "message",
+            "label": "Sushi",
+            "text": "Sushi"
+          }
+        },
+        {
+          "type": "action",
+          "imageUrl": "https://example.com/tempura.png",
+          "action": {
+            "type": "message",
+            "label": "Tempura",
+            "text": "Tempura"
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "location",
+            "label": "Send location"
+          }
+        }
+      ]
+    }
+  }
+
 async function getDisplayName(client, userId) {
   const profile = await client.getProfile(userId);
   const displayName = profile.displayName;
@@ -350,7 +385,7 @@ async function handleEvent(event) {
                 }
             }
         )
-
+    // flexmessage検証
     case "購入":
         return client.replyMessage(event.replyToken,
             {
@@ -359,6 +394,10 @@ async function handleEvent(event) {
                 "contents": flexMessage
             }
         )
+
+    // quickreply検証
+    case "クイック":
+        return client.replyMessage(event.replyToken, quickMessage)
 
     case "全削除":
         if(userId != 'U52e83c6b4e1e3e4bd7920b6fc7f6776a'){
