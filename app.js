@@ -36,6 +36,9 @@ async function handleEvent(event) {
     // if (event.type !== 'message' || event.message.type !== 'text' || event.source.type == 'group') {
     //     return Promise.resolve(null);
     // }
+    console.log('---------------')
+    console.log(event)
+    console.log('---------------')
     // コネクションをはる
     const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
