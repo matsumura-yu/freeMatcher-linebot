@@ -43,6 +43,8 @@ async function handleEvent(event) {
     const userId = event.source.userId;
     const reqMessage = event.message.text
     const groupId = event.source.groupId;
+    
+    // 個別チャットではundefinedになる
     console.log(groupId)
     const displayName = await getDisplayName(client, userId);
 
@@ -121,6 +123,13 @@ async function handleEvent(event) {
             type: 'text',
             text: '何か開発者に意見をお願いします。'
         })
+
+    case "deleteAll":
+        redisClient.flushall(function(err, succeeded){
+            console.log(succeeded);
+            
+        })
+        redisClient.quit();
     default:
         console.log(reqMessage)
         // TODO:式実行して変数に代入しながらif文かけたい
