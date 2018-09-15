@@ -273,6 +273,28 @@ async function handleEvent(event) {
             console.log(reply)
             console.log("---------err-------------");
             console.log(err);
+            if(err){
+                console.log(err)
+            }
+            if(reply == 0){
+                console.log("userIdのセットがありません")
+                return client.replyMessage(event.replyToken,{
+                    type: 'text',
+                    text: "グループにBotを入れください。"
+                })
+            }
+
+        })
+    }else{
+        // グループチャットでの処理
+        redisClient.sismember(userId, groupId, function(err, reply){
+            console.log(reply)
+            if(err){
+                console.log(err)
+            }
+            if(reply == 0){
+                redisClient.sadd(userId, groupId)
+            }
         })
     }
     
