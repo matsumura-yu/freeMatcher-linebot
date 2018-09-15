@@ -155,17 +155,17 @@ async function handleEvent(event) {
         })
 
     // URIスキームの検証
-    case "朝活":
+    case "情報":
         return client.replyMessage(event.replyToken,
             {
                 type: 'template',
-                altText: '位置情報を送ってください。',
+                altText: '自分の情報が見れます',
                 template: {
                     type: 'buttons',
-                    title: '位置情報',
-                    text: '位置情報を送ってください。',
+                    title: '自分の情報',
+                    text: '自分の情報が見れます',
                     actions: [
-                        { label: '位置情報を送る', type: 'uri', uri: 'line://nv/location' },
+                        { label: '自分のLINEの情報リンク', type: 'uri', uri: 'line://app/1605339565-X8yEJDeQ' },
                     ]
                 }
             }
