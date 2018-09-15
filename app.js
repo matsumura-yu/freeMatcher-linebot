@@ -56,8 +56,12 @@ async function handleEvent(event) {
                 text: "申し訳ありません。現在この機能はグループ内でのみ利用可能です。"
             })
         }
+        
         console.log("groupIDが存在")
-        redisClient.sadd("userIds",userId)
+        //redisClient.sadd("userIds",userId)
+        
+        // groupIDでとる処理
+        redisClient.sadd(groupId, userId)
         redisClient.quit();
 
         return client.replyMessage(event.replyToken,{
@@ -74,7 +78,8 @@ async function handleEvent(event) {
         }
         console.log("groupIDが存在")
         // userId取得
-        redisClient.srem("userIds",userId)
+        //redisClient.srem("userIds",userId)
+        redisClient.srem(groupId, userId)
         redisClient.quit();
         
         return client.replyMessage(event.replyToken,{
@@ -94,7 +99,7 @@ async function handleEvent(event) {
         // const standUserIds = await redisClient.smembers("userIds")
         // async awaitでの書き換え失敗
 
-        await redisClient.smembers("userIds", function (err, userIds) {
+        await redisClient.smembers(groupId, function (err, userIds) {
             let replayMessage = ""
             if(!err){
                 console.log(userIds);
