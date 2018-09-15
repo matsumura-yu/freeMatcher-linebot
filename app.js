@@ -261,11 +261,21 @@ async function handleEvent(event) {
     const userId = event.source.userId;
     const reqMessage = event.message.text
     const groupId = event.source.groupId;
-    
-    // 個別チャットではundefinedになる
-    console.log(groupId)
     const displayName = await getDisplayName(client, userId);
 
+
+    // 個別チャットで来た処理
+    if(groupId == undefined){
+        // 初めてのユーザーかどうかの判別
+        // userIDをキーにして入っているかどうかのsetを作る
+        redisClient.sismember(userId, groupId, function(err, reply){
+            console.log("---------reply-----------")
+            console.log(reply)
+            console.log("---------err-------------");
+            console.log(err);
+        })
+    }
+    
     switch(reqMessage){
     case "行ける":
         if(groupId == undefined){
