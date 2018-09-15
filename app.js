@@ -122,6 +122,7 @@ async function handleEvent(event) {
             text: '何か開発者に意見をお願いします。'
         })
     default:
+        console.log(reqMessage)
         // TODO:式実行して変数に代入しながらif文かけたい
         if(reqMessage.match(/(\d+)月(\d+)日/) == null){
             //result = s.match( /\D+(\d+)年(\d+)月(\d+)日/ )
