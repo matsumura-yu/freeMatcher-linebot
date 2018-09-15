@@ -268,23 +268,13 @@ async function handleEvent(event) {
     if(groupId == undefined){
         // 初めてのユーザーかどうかの判別
         // userIDをキーにして入っているかどうかのsetを作る
-        redisClient.sismember(userId, groupId, function(err, reply){
-            console.log("---------reply-----------")
-            console.log(reply)
-            console.log("---------err-------------");
-            console.log(err);
-            if(err){
-                console.log(err)
+        var result = redisClient.smembers(userId, function(err, res){
+            if(!err){
+                console.log('res' + res);
             }
-            if(reply == 0){
-                console.log("userIdのセットがありません")
-                return client.replyMessage(event.replyToken,{
-                    type: 'text',
-                    text: "グループにBotを入れください。"
-                })
-            }
-
         })
+        console.log('result:' + result);
+
     }else{
         // グループチャットでの処理
         redisClient.sismember(userId, groupId, function(err, reply){
