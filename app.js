@@ -154,6 +154,24 @@ async function handleEvent(event) {
             text: '何か開発者に意見をお願いします。'
         })
 
+    // URIスキームの検証
+    case "朝活":
+        return client.replyMessage(event.replyToken,
+            {
+                type: 'template',
+                altText: '位置情報を送ってください。',
+                template: {
+                    type: 'buttons',
+                    title: '位置情報',
+                    text: '位置情報を送ってください。',
+                    actions: [
+                        { label: '位置情報を送る', type: 'uri', uri: 'line://nv/location' },
+                    ]
+                }
+            }
+        )
+
+
     case "全削除":
         if(userId != 'U52e83c6b4e1e3e4bd7920b6fc7f6776a'){
             return client.replyMessage(event.replyToken,{
