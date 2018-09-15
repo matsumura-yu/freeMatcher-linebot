@@ -260,7 +260,7 @@ async function handleEvent(event) {
   // userId取得
     const userId = event.source.userId;
     const reqMessage = event.message.text
-    const groupId = event.source.groupId;
+    let groupId = event.source.groupId;
     const displayName = await getDisplayName(client, userId);
 
 
@@ -272,10 +272,11 @@ async function handleEvent(event) {
             if(!err){
                 console.log('res:' + res);
                 if(res != null){
-                    for(let v of res) {
-                        console.log("groupId:" + v);
-                      }
-                      
+                    groupId = res
+                    // for(let v of res) {
+                    //     console.log("groupId:" + v);
+                    // }
+                    console.log("groupID:" + groupId)
                 }
             }
         })
