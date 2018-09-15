@@ -50,6 +50,13 @@ async function handleEvent(event) {
 
     switch(reqMessage){
     case "行ける":
+        if(groupId == undefined){
+            return client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: "申し訳ありません。現在この機能はグループ内でのみ利用可能です。"
+            })
+        }
+        console.log("groupIDが存在")
         redisClient.sadd("userIds",userId)
         redisClient.quit();
 
@@ -59,6 +66,13 @@ async function handleEvent(event) {
         })
     
     case "落ちる":
+        if(groupId == undefined){
+            return client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: "申し訳ありません。現在この機能はグループ内でのみ利用可能です。"
+            })
+        }
+        console.log("groupIDが存在")
         // userId取得
         redisClient.srem("userIds",userId)
         redisClient.quit();
@@ -69,6 +83,14 @@ async function handleEvent(event) {
         })
     
     case "誰か":
+        if(groupId == undefined){
+            return client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: "申し訳ありません。現在この機能はグループ内でのみ利用可能です。"
+            })
+        }
+        console.log("groupIDが存在")
+
         // const standUserIds = await redisClient.smembers("userIds")
         // async awaitでの書き換え失敗
 
@@ -127,7 +149,7 @@ async function handleEvent(event) {
     case "deleteAll":
         redisClient.flushall(function(err, succeeded){
             console.log(succeeded);
-            
+
         })
         redisClient.quit();
     default:
