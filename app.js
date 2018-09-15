@@ -43,7 +43,7 @@ async function handleEvent(event) {
     const userId = event.source.userId;
     const reqMessage = event.message.text
     const groupId = event.source.groupId;
-
+    console.log(groupId)
     const displayName = await getDisplayName(client, userId);
 
     switch(reqMessage){
