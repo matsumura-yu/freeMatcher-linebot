@@ -270,10 +270,17 @@ async function handleEvent(event) {
         // userIDをキーにして入っているかどうかのsetを作る
         var result = redisClient.smembers(userId, function(err, res){
             if(!err){
-                console.log('res' + res);
+                console.log('res:' + res);
+                if(res != null){
+                    for(let v of res) {
+                        console.log("groupId:" + v);
+                      }
+                      
+                }
             }
         })
-        console.log('result:' + result);
+        // resultはどのみちtrueが帰るようになっている
+        // console.log('result:' + result);
 
     }else{
         // グループチャットでの処理
