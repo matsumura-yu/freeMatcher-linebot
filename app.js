@@ -154,10 +154,16 @@ async function handleEvent(event) {
             text: '何か開発者に意見をお願いします。'
         })
 
-    case "deleteAll":
+    case "全削除":
+        if(userId != 'U52e83c6b4e1e3e4bd7920b6fc7f6776a'){
+            return client.replyMessage(event.replyToken,{
+                type: 'text',
+                text: '開発者のみの機能です。'
+            })
+        }
+        
         redisClient.flushall(function(err, succeeded){
             console.log(succeeded);
-
         })
         redisClient.quit();
     default:
