@@ -290,7 +290,7 @@ async function handleEvent(event) {
         
         // 待ちたい
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-        await wait(2000).then(() => console.log("2秒待ちました"))
+        await wait(1000).then(() => console.log("2秒待ちました"))
         console.log("Promise後")
 
     }else{
@@ -321,7 +321,7 @@ async function handleEvent(event) {
         
         // groupIDでとる処理
         redisClient.sadd(groupId, userId)
-        //redisClient.quit();
+        redisClient.quit();
 
         return client.replyMessage(event.replyToken,{
             type: 'text',
