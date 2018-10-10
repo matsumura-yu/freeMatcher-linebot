@@ -481,6 +481,7 @@ async function handleEvent(event) {
         
   }
   
+  console.log("test")
   return client.replyMessage(event.replyToken, {
     type: 'text',
     text: event.message.text //実際に返信の言葉を入れる箇所
