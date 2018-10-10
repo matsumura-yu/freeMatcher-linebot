@@ -272,7 +272,6 @@ async function handleEvent(event) {
         var result = redisClient.smembers(userId, function(err, res){
             if(!err){
                 console.log('res:' + res);
-                timerFlag = 1
                 if(res != null){
                     groupId = res
                     // for(let v of res) {
@@ -285,13 +284,7 @@ async function handleEvent(event) {
         })
         // resultはどのみちtrueが帰るようになっている
         // console.log('result:' + result);
-        var sleep = setInterval(function(){
-          // TODO: 時間あればPromiseなどで非同期処理に直す
-          console.log("個人チャット処理は1秒待つ事で対処")
-          if(timerFlag == 1){
-            clearInterval()
-          }
-        }, 1000);
+        
 
     }else{
         // グループチャットでの処理
