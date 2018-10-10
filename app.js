@@ -272,13 +272,14 @@ async function handleEvent(event) {
         var result = redisClient.smembers(userId, function(err, res){
             if(!err){
                 console.log('res:' + res);
+                timerFlag = 1
                 if(res != null){
                     groupId = res
                     // for(let v of res) {
                     //     console.log("groupId:" + v);
                     // }
                     console.log("groupID:" + groupId)
-                    timerFlag = 1
+                    
                 }
             }
         })
