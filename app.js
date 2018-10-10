@@ -255,7 +255,7 @@ async function handleEvent(event) {
     console.log(event)
     console.log('---------------')
     // コネクションをはる
-    let redisClient = require('redis').createClient(process.env.REDIS_URL);
+    const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
   // userId取得
     const userId = event.source.userId;
@@ -292,8 +292,6 @@ async function handleEvent(event) {
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         await wait(1000).then(() => console.log("2秒待ちました"))
         console.log("Promise後")
-        // コネクションを貼り直す
-        redisClient = require('redis').createClient(process.env.REDIS_URL);
 
     }else{
         // グループチャットでの処理
@@ -318,9 +316,9 @@ async function handleEvent(event) {
             })
         }
         
-        console.log("groupIDが存在")
-        //redisClient.sadd("userIds",userId)
-        
+        console.log("groupIDが存在" + groupId)
+        console.log("userId: " + userId)
+
         // groupIDでとる処理
         redisClient.sadd(groupId, userId)
         redisClient.quit();
