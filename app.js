@@ -290,7 +290,7 @@ async function handleEvent(event) {
         
         // 待ちたい
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-        wait(2000).then(() => console.log("2秒待ちました"))
+        await wait(2000).then(() => console.log("2秒待ちました"))
         console.log("Promise後")
 
     }else{
