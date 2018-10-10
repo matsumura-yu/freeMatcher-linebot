@@ -268,10 +268,12 @@ async function handleEvent(event) {
     if(groupId == undefined){
         // 初めてのユーザーかどうかの判別
         // userIDをキーにして入っているかどうかのsetを作る
-        var timerFlag = 0
+        var awaitFlag = true
         var result = await redisClient.smembers(userId, function(err, res){
+            awaitFlag = false
             if(!err){
                 console.log('res:' + res);
+                
                 if(res != null){
                     groupId = res
                     // for(let v of res) {
@@ -284,7 +286,10 @@ async function handleEvent(event) {
         })
         // resultはどのみちtrueが帰るようになっている
         // console.log('result:' + result);
-        
+        while(awaitFlag){
+          console.log("待機");
+          console.log(groupId);
+        }
 
     }else{
         // グループチャットでの処理
