@@ -320,8 +320,8 @@ async function handleEvent(event) {
         //redisClient.sadd("userIds",userId)
         
         // groupIDでとる処理
-        redisClient.sadd(groupId, userId)
-        redisClient.quit();
+        //redisClient.sadd(groupId, userId)
+        //redisClient.quit();
 
         return client.replyMessage(event.replyToken,{
             type: 'text',
