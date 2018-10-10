@@ -282,6 +282,10 @@ async function handleEvent(event) {
         })
         // resultはどのみちtrueが帰るようになっている
         // console.log('result:' + result);
+        var sleep = setInterval(function(){
+          // TODO: 時間あればPromiseなどで非同期処理に直す
+          console.log("個人チャット処理は1秒待つ事で対処")
+        }, 1000);
 
     }else{
         // グループチャットでの処理
