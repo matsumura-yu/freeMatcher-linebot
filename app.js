@@ -263,14 +263,15 @@ async function handleEvent(event) {
     let groupId = event.source.groupId;
     const displayName = await getDisplayName(client, userId);
 
+    // const promise = new Promise((resolve, reject) => resolve('hello, world!'));
+    // const hw = await promise;
+    // console.log(hw); // hello, world!
 
     // 個別チャットで来た処理
     if(groupId == undefined){
         // 初めてのユーザーかどうかの判別
         // userIDをキーにして入っているかどうかのsetを作る
-        var awaitFlag = true
-        var result = await redisClient.smembers(userId, function(err, res){
-            awaitFlag = false
+        var result = redisClient.smembers(userId, function(err, res){
             if(!err){
                 console.log('res:' + res);
                 
@@ -286,10 +287,11 @@ async function handleEvent(event) {
         })
         // resultはどのみちtrueが帰るようになっている
         // console.log('result:' + result);
-        while(awaitFlag){
-          console.log("待機");
-          console.log(groupId);
-        }
+        
+        // 待ちたい
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+        wait(2000).then(() => console.log("2秒待ちました"))
+        console.log("Promise後")
 
     }else{
         // グループチャットでの処理
