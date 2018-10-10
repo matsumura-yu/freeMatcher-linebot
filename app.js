@@ -275,7 +275,7 @@ async function handleEvent(event) {
             if(!err){
                 console.log('res:' + res);
                 
-                if(res != null){
+                if(res != null || res != ""){
                     groupId = res
                     // for(let v of res) {
                     //     console.log("groupId:" + v);
@@ -320,7 +320,7 @@ async function handleEvent(event) {
         //redisClient.sadd("userIds",userId)
         
         // groupIDでとる処理
-        //redisClient.sadd(groupId, userId)
+        redisClient.sadd(groupId, userId)
         //redisClient.quit();
 
         return client.replyMessage(event.replyToken,{
