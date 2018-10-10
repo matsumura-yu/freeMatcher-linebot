@@ -268,6 +268,7 @@ async function handleEvent(event) {
     if(groupId == undefined){
         // 初めてのユーザーかどうかの判別
         // userIDをキーにして入っているかどうかのsetを作る
+        var timerFlag = 0
         var result = redisClient.smembers(userId, function(err, res){
             if(!err){
                 console.log('res:' + res);
@@ -277,6 +278,7 @@ async function handleEvent(event) {
                     //     console.log("groupId:" + v);
                     // }
                     console.log("groupID:" + groupId)
+                    timerFlag = 1
                 }
             }
         })
@@ -285,6 +287,9 @@ async function handleEvent(event) {
         var sleep = setInterval(function(){
           // TODO: 時間あればPromiseなどで非同期処理に直す
           console.log("個人チャット処理は1秒待つ事で対処")
+          if(timerFlag == 1){
+            clearInterval()
+          }
         }, 1000);
 
     }else{
