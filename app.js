@@ -269,7 +269,7 @@ async function handleEvent(event) {
         // 初めてのユーザーかどうかの判別
         // userIDをキーにして入っているかどうかのsetを作る
         var timerFlag = 0
-        var result = redisClient.smembers(userId, function(err, res){
+        var result = await redisClient.smembers(userId, function(err, res){
             if(!err){
                 console.log('res:' + res);
                 if(res != null){
